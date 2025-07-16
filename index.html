@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLOKD - Time Tracking App</title>
+    <link rel="icon" type="image/png" href="clockd-logo.png" width="300px" height="300px">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="logo">CLOKD</a>
+            <button class="hamburger" aria-label="Menu">☰</button>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#tracker">Tracker</a></li>
+                <li><a href="#logs">Logs</a></li>
+                <li><a href="#reports">Reports</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+        <div class="container">
+            <h1>Track Your Time with CLOKD</h1>
+            <p>A simple, intuitive time tracking solution for your daily activities.</p>
+            <a href="#tracker" class="cta-button primary-button">Start Tracking</a>
+        </div>
+    </section>
+
+    <!-- Tracker Section -->
+    <section id="tracker" class="section">
+        <div class="container">
+            <h2>Time Tracker</h2>
+            
+            <!-- Circular Timer Display -->
+            <div class="timer-container">
+                <div class="timer-circle">
+                    <svg class="timer-svg" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="90" class="timer-background"></circle>
+                        <circle cx="100" cy="100" r="90" class="timer-progress" id="timer-progress"></circle>
+                    </svg>
+                    <div class="timer-display" id="timer-display">00:00:00</div>
+                </div>
+                
+                <!-- Timer Controls -->
+                <div class="timer-controls">
+                    <button type="button" id="start-btn" class="control-button start-button">
+                        <span class="button-icon">▶</span>
+                        <span class="button-text">Start</span>
+                    </button>
+                    <button type="button" id="pause-btn" class="control-button pause-button" disabled>
+                        <span class="button-icon">⏸</span>
+                        <span class="button-text">Pause</span>
+                    </button>
+                    <button type="button" id="stop-btn" class="control-button stop-button" disabled>
+                        <span class="button-icon">⏹</span>
+                        <span class="button-text">Stop</span>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="tracker-form">
+                <div class="form-group">
+                    <label for="task-name">What are you working on?</label>
+                    <input type="text" id="task-name" required placeholder="Enter task name">
+                    <span class="error-message" id="task-name-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="project">Project</label>
+                    <select id="project">
+                        <option value="Work">Work</option>
+                        <option value="Study">Study</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Break">Break</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="custom-project-container" class="hidden">
+                        <input type="text" id="custom-project" placeholder="Enter custom project name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div class="tag-input-container">
+                        <input type="text" id="tag-name" placeholder="Add a tag">
+                        <div class="color-picker">
+                            <input type="color" id="tag-color" value="#0077b6">
+                            <div class="color-preview"></div>
+                        </div>
+                        <button type="button" id="add-tag" class="small-button">Add</button>
+                    </div>
+                    <span class="error-message" id="tag-error"></span>
+                    <div id="tags-container" class="tags-container"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" id="manual-entry-btn" class="tertiary-button">+ Manual Entry</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Manual Entry Modal -->
+    <div id="manual-entry-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Manual Time Entry</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <form id="manual-entry-form">
+                <div class="form-group">
+                    <label for="manual-task-name">Task Name *</label>
+                    <input type="text" id="manual-task-name" required placeholder="What did you work on?">
+                    <span class="error-message" id="manual-task-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="manual-project">Project</label>
+                    <select id="manual-project">
+                        <option value="Work">Work</option>
+                        <option value="Study">Study</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Break">Break</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="manual-custom-project-container" class="hidden">
+                        <input type="text" id="manual-custom-project" placeholder="Enter custom project name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div class="tag-input-container">
+                        <input type="text" id="manual-tag-name" placeholder="Add a tag">
+                        <div class="color-picker">
+                            <input type="color" id="manual-tag-color" value="#0077b6">
+                            <div class="color-preview"></div>
+                        </div>
+                        <button type="button" id="manual-add-tag" class="small-button">Add</button>
+                    </div>
+                    <span class="error-message" id="manual-tag-error"></span>
+                    <div id="manual-tags-container" class="tags-container"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="manual-start-time">Start Date & Time *</label>
+                        <input type="datetime-local" id="manual-start-time" required>
+                        <span class="error-message" id="manual-start-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="manual-end-time">End Date & Time *</label>
+                        <input type="datetime-local" id="manual-end-time" required>
+                        <span class="error-message" id="manual-end-error"></span>
+                    </div>
+                </div>
+                
+                <div class="duration-display" id="duration-display">
+                    Duration: <span id="calculated-duration">00:00:00</span>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="primary-button">Save Entry</button>
+                    <button type="button" class="secondary-button cancel-manual-entry">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content confirmation-modal-content">
+            <div class="confirmation-header">
+                <h3 id="confirmation-title">Confirm Action</h3>
+        </div>
+        <div class="confirmation-body">
+            <p id="confirmation-message">Are you sure you want to proceed?</p>
+        </div>
+        <div class="confirmation-actions">
+            <button id="confirm-yes" class="primary-button">Yes</button>
+            <button id="confirm-no" class="secondary-button">Cancel</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Logs Section -->
+    <section id="logs" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Time Logs</h2>
+                <div class="logs-summary" id="logs-summary">
+                    <span class="total-entries">0 entries</span>
+                    <span class="total-time">Total: 00:00:00</span>
+                </div>
+            </div>
+            
+            <div id="logs-container">
+                <div class="desktop-view">
+                    <div class="table-container">
+                        <table id="logs-table">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Project</th>
+                                    <th>Tags</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Duration</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-table-body">
+                                <!-- Logs will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mobile-view" id="logs-cards">
+                    <!-- Logs cards will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports" class="section">
+        <div class="container">
+            <div class="reports-header">
+                <h2>Reports</h2>
+                <div class="filter-controls">
+                    <div class="filter-row">
+                        <select id="time-filter">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <input type="date" id="custom-date-input" class="hidden" style="width: 250px;">
+                        <select id="project-filter">
+                            <option value="all">All Projects</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reports-container">
+                <div class="chart-container">
+                    <h3>Time Distribution</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="pie-chart" width="300" height="300"></canvas>
+                        <div id="no-data-message-pie" class="no-data-td hidden">
+                            <p>No data available for the selected period.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-container">
+                    <h3>Project Breakdown</h3>
+                    <div id="project-stats">
+                        <!-- Project stats will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-section">
+                <button id="download-pdf" class="download-button">
+                    <span class="download-icon">📄</span>
+                    <span class="download-text">Download PDF Report</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-app">
+                    <h2>About CLOKD</h2>
+                    <p class="lead">Ever feel like the day slipped away without warning? <br><strong>CLOKD </strong> helps you take that time back.</p>
+                    <p>It's more than just a time tracker—it's a simple, smart tool that lets you log tasks, tag them with context, and visualize how your hours are spent across projects. With clean reports and intuitive tracking, CLOKD turns scattered time into clear insight—so you can work better, not just longer.</p>
+                    <p><strong>Because time doesn't have to vanish without a trace.</strong></p>
+                    
+                    <div class="features-grid">
+                        <div class="feature">
+                            <div class="feature-icon">⏱️</div>
+                            <h4>Smart Tracking</h4>
+                            <p>Intuitive timer with visual feedback</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🏷️</div>
+                            <h4>Flexible Tagging</h4>
+                            <p>Organize tasks with custom tags and colors</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📊</div>
+                            <h4>Clear Reports</h4>
+                            <p>Visualize your time with detailed analytics</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📱</div>
+                            <h4>Responsive Design</h4>
+                            <p>Works seamlessly on all devices</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-maker">
+                    <h3>About the Maker</h3>
+                    <div class="maker-info">
+                        <div class="maker-text">
+                            <p>CLOKD is a frontend-only time tracking tool inspired by Toggl Track, built entirely with HTML, CSS, and JavaScript. It was created by <strong>Cristieneil Ceballos</strong>, an incoming 3rd-year Computer Science student at the University of the Philippines Mindanao and an IT Intern at Tutorials Dojo.</p>
+                            
+                            <p>Cristieneil is an aspiring UI/UX and frontend developer who actively participates in local tech initiatives—volunteering on projects to give back to the community, grow her skills, and stay curious. She's passionate about learning through collaboration and enjoys connecting with others who share the same drive for tech and creativity.</p>
+                            
+                            <div class="connect-section">
+                                <p><strong>Connect with the developer:</strong></p>
+                                <div class="contact-links">
+                                    <a href="https://linkedin.com/in/cris-ceballos" target="_blank" class="contact-link contact-link">
+                                        <img src="https://www.svgrepo.com/show/157006/linkedin.svg" alt="LinkedIn" class="linkedin-icon">
+                                        <span>LinkedIn Profile</span>
+                                    </a>
+                                    <a href="mailto:ceballoscristieneil@gmail.com" class="contact-link contact-link">
+                                        <span class="email-icon">✉️</span>
+                                        <span>ceballoscristieneil@gmail.com</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
