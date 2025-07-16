@@ -131,7 +131,7 @@ The application will load in your browser, and you can start tracking your time 
 The project consists of three main files:
 
 \`\`\`
-.
+.<br>
 ├── index.html    # The main HTML structure of the application. <br>
 ├── style.css     # Contains all the CSS rules for styling the app. <br>
 ├── script.js     # Implements all the interactive logic and data handling. <br>
