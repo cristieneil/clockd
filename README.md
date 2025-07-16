@@ -132,9 +132,9 @@ The project consists of three main files:
 
 \`\`\`
 .
-├── index.html    # The main HTML structure of the application.
-├── style.css     # Contains all the CSS rules for styling the app.
-├── script.js     # Implements all the interactive logic and data handling.
+├── index.html    # The main HTML structure of the application. <br>
+├── style.css     # Contains all the CSS rules for styling the app. <br>
+├── script.js     # Implements all the interactive logic and data handling. <br>
 └── clockd-logo.png # Application favicon/logo.
 \`\`\`
 
